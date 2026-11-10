@@ -106,3 +106,21 @@ function predecir() {
 
   resultado.textContent = "Leí " + pixeles.length + " números. Mira la consola (F12).";
 }
+
+async function copiarParaPython() {
+  actualizarVista();
+  const pixeles = obtenerPixeles();
+  const texto =
+    "img = np.array([" + pixeles.join(", ") + "], dtype='float32')" +
+    ".reshape(1, 28, 28, 1) / 255.0";
+
+    try {
+    await navigator.clipboard.writeText(texto);
+    resultado.textContent = "Copiado. Pégalo en una celda de Python.";
+  } catch (error) {
+    resultado.textContent = "No pude copiar. Revisa la consola.";
+    console.log(texto);
+  }
+}
+
+document.getElementById("btn-copiar").addEventListener("click", copiarParaPython);
